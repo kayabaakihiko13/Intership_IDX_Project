@@ -1,4 +1,3 @@
-
 from setuptools import setup
 
 setup(
@@ -7,5 +6,5 @@ setup(
     description="Curated Math and Statical Model",
     author="Iqbal Ramadhan Anniswa",
     packages=["Charlotte"],
-    python_requires=">=3.10"
+    python_requires=">=3.10",
 )
