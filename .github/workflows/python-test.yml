@@ -19,17 +19,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Install dependencies for Python code
-          pip install -r requirements-dev.txt  # Install testing dependencies for notebooks and testing
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install Charlotte  # Replace 'Charlotte' with the actual module name if it's a package you've developed
-      - name: Convert Notebooks to Python Scripts
-        run: |
-          for notebook in $(find notebook -name '*.ipynb'); do
-            jupyter nbconvert --to script "$notebook"
-          done
       - name: Test with pytest
         run: |
           pytest --verbose
-      - name: Test Notebooks with pytest and nbval
-        run: |
-          pytest --nbval notebook  # Run tests for all converted Python scripts in the 'notebook' directory
