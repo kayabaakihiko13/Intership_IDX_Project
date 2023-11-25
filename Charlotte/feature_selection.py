@@ -22,16 +22,20 @@ def pearson_correlation_selection(data: pd.DataFrame,
     # Fitur-fitur yang ingin di-drop
     to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > threshold)]
 
-    selected_features = [col for col in data.columns if col not in to_drop]
-
-    return data[selected_features]
+    return data.drop(to_drop,axis=1)
 
 
 def selection_by_variance(data:pd.DataFrame,
                           threshold:float=0.8)->pd.DataFrame:
-    
-    
+
+    """
+    fungsi ini menjelaskan bagaimana mengseleksi feature numeric
+    dengan menggunakan metode variance tersebut
+    Returns:
+        pd.DataFrame: dataframe dengan kolumn yang udah di selected
+    """
+
     variances = data.var()
-    selected_features = data.columns[variances > threshold]
-    return data[selected_features]
+    to_drop  = data.columns[variances <= threshold]
+    return data.drop(to_drop ,axis=1)
 
