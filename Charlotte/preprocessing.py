@@ -63,3 +63,67 @@ def fill_nan(data: Union[pd.DataFrame, np.ndarray]) -> Union[pd.DataFrame, np.nd
                         median_val = np.nanmedian(col)
                         col[np.isnan(col)] = median_val
         return filled_data
+
+class LabelEncoding(object):
+    """
+    Class Label Encoding merupakan bagaimana dari data categorical menjadi numerical
+    Source:
+        [Bell Shade](https://github.com/bellshade/Python/blob/main/implementation/statistic/LabelEncoding.py)
+    """
+
+    def __init__(self):
+        self.label_map = {}
+
+    def fit(self, data: Union[np.array, pd.Series])->None:
+        """
+        this function for training what be labeling
+        Args:
+            data (Union[np.array, pd.Series]): _description_
+
+        Raises:
+            ValueError: input should be a Numpy array or pandas Dataframe
+
+        Returns:
+            None: 
+        """
+        if isinstance(data, pd.Series):
+            data = data.values
+        elif isinstance(data, np.ndarray):
+            data = data.flatten()
+        else:
+            raise ValueError("Input should be a NumPy array or Pandas Series")
+
+        unique_values = np.unique(data)
+        for value in unique_values:
+            if value not in self.label_map:
+                self.label_map[value] = len(self.label_map)
+
+    def transform(self, data: Union[np.ndarray, pd.Series])->np.array:
+        """
+        how to from training data to be transforms
+        Args:
+            data (Union[np.ndarray, pd.DataFrame]): _description_
+
+        Returns:
+            np.array: result of value from categorical to numberic
+        """
+        if isinstance(data, pd.Series):
+            data = data.values
+        elif not isinstance(data, np.ndarray):
+            raise ValueError("Input should be a NumPy array or Pandas Series")
+
+        labels = []
+        for value in data:
+            labels.append(self.label_map[value])
+
+        return np.array(labels)
+if __name__ == "__main__":
+    data = pd.DataFrame({
+    'A': ['orange', 'banana', 'apple'],
+    'B': ['yellow', 'green', 'red']})
+    label_encoder = LabelEncoding()
+    # Fit ke data
+    for col in data.columns:
+        label_encoder.fit(data[col])
+        print(label_encoder.label_map)
+    
