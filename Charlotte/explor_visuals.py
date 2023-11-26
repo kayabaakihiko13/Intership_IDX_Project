@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from typing import Union
+
 sns.set_style("whitegrid")
+
 
 def Countplot_Visual(
     data: Union[pd.Series, np.array, pd.DataFrame, np.ndarray],
@@ -46,13 +48,23 @@ def Countplot_Visual(
                 else title
             )
         for p in ax.patches:
-                ax.annotate(f'\n{p.get_height()}', (p.get_x()+p.get_width()/2, p.get_height()),
-                            ha='center', va='top', color='black')
+            ax.annotate(
+                f"\n{p.get_height()}",
+                (p.get_x() + p.get_width() / 2, p.get_height()),
+                ha="center",
+                va="top",
+                color="black",
+            )
 
     return fig
 
-def PiePlot(data:pd.Series,figsize:tuple[int,int]=(12,6),
-            title:str|None=None,palatte:str|None=None) -> plt.Figure:
+
+def PiePlot(
+    data: pd.Series,
+    figsize: tuple[int, int] = (12, 6),
+    title: str | None = None,
+    palatte: str | None = None,
+) -> plt.Figure:
     """_summary_
 
     Args:
@@ -65,11 +77,11 @@ def PiePlot(data:pd.Series,figsize:tuple[int,int]=(12,6),
         plt.Figure: _description_
     """
     fig, ax = plt.subplots(figsize=figsize)
-    palette_color = sns.color_palette('bright') if palatte is None else palatte
+    palette_color = sns.color_palette("bright") if palatte is None else palatte
     if isinstance(data, pd.Series):
         data_count = data.value_counts()
         keys = data_count.index  # Use the index of value_counts instead of unique()
-        ax.pie(data_count, labels=keys, colors=palette_color, autopct='%.1f%%')
+        ax.pie(data_count, labels=keys, colors=palette_color, autopct="%.1f%%")
 
     if title:
         ax.set_title(title)

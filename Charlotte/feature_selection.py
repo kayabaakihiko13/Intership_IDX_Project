@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
 
-def pearson_correlation_selection(data: pd.DataFrame,
-                                  threshold: float = 0.8)->pd.DataFrame:
+
+def pearson_correlation_selection(
+    data: pd.DataFrame, threshold: float = 0.8
+) -> pd.DataFrame:
     """
     Seleksi fitur berdasarkan korelasi Pearson antar fitur.
 
@@ -20,14 +22,14 @@ def pearson_correlation_selection(data: pd.DataFrame,
     upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
 
     # Fitur-fitur yang ingin di-drop
-    to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > threshold)]
+    to_drop = [
+        column for column in upper_tri.columns if any(upper_tri[column] > threshold)
+    ]
 
-    return data.drop(to_drop,axis=1)
+    return data.drop(to_drop, axis=1)
 
 
-def selection_by_variance(data:pd.DataFrame,
-                          threshold:float=0.8)->pd.DataFrame:
-
+def selection_by_variance(data: pd.DataFrame, threshold: float = 0.8) -> pd.DataFrame:
     """
     fungsi ini menjelaskan bagaimana mengseleksi feature numeric
     dengan menggunakan metode variance tersebut
@@ -36,6 +38,5 @@ def selection_by_variance(data:pd.DataFrame,
     """
 
     variances = data.var()
-    to_drop  = data.columns[variances <= threshold]
-    return data.drop(to_drop ,axis=1)
-
+    to_drop = data.columns[variances <= threshold]
+    return data.drop(to_drop, axis=1)
