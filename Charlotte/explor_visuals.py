@@ -32,9 +32,7 @@ def Countplot_Visual(
         ax.set_title(
             data.name
             if hasattr(data, "name")
-            else "Count Of ..."
-            if title is None
-            else title
+            else "Count Of ..." if title is None else title
         )
     elif isinstance(data, pd.DataFrame):
         if hue is None:

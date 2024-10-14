@@ -64,6 +64,7 @@ def fill_nan(data: Union[pd.DataFrame, np.ndarray]) -> Union[pd.DataFrame, np.nd
                         col[np.isnan(col)] = median_val
         return filled_data
 
+
 class LabelEncoding(object):
     """
     Class Label Encoding merupakan bagaimana dari data categorical menjadi numerical
@@ -74,7 +75,7 @@ class LabelEncoding(object):
     def __init__(self):
         self.label_map = {}
 
-    def fit(self, data: Union[np.array, pd.Series])->None:
+    def fit(self, data: Union[np.array, pd.Series]) -> None:
         """
         this function for training what be labeling
         Args:
@@ -84,7 +85,7 @@ class LabelEncoding(object):
             ValueError: input should be a Numpy array or pandas Dataframe
 
         Returns:
-            None: 
+            None:
         """
         if isinstance(data, pd.Series):
             data = data.values
@@ -98,7 +99,7 @@ class LabelEncoding(object):
             if value not in self.label_map:
                 self.label_map[value] = len(self.label_map)
 
-    def transform(self, data: Union[np.ndarray, pd.Series])->np.array:
+    def transform(self, data: Union[np.ndarray, pd.Series]) -> np.array:
         """
         how to from training data to be transforms
         Args:
@@ -117,13 +118,14 @@ class LabelEncoding(object):
             labels.append(self.label_map[value])
 
         return np.array(labels)
+
+
 if __name__ == "__main__":
-    data = pd.DataFrame({
-    'A': ['orange', 'banana', 'apple'],
-    'B': ['yellow', 'green', 'red']})
+    data = pd.DataFrame(
+        {"A": ["orange", "banana", "apple"], "B": ["yellow", "green", "red"]}
+    )
     label_encoder = LabelEncoding()
     # Fit ke data
     for col in data.columns:
         label_encoder.fit(data[col])
         print(label_encoder.label_map)
-    
